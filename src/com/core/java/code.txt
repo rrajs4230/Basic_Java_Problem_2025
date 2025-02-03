@@ -1,0 +1,139 @@
+// Abstract superclass
+abstract class GraphicObject {
+    // Common properties for all graphic objects
+    int x, y; // Position
+    String lineColor;
+    String fillColor;
+
+    // Constructor to initialize common properties
+    GraphicObject(int x, int y, String lineColor, String fillColor) {
+        this.x = x;
+        this.y = y;
+        this.lineColor = lineColor;
+        this.fillColor = fillColor;
+    }
+
+    // Common behavior for all graphic objects
+    void moveTo(int newX, int newY) {
+        this.x = newX;
+        this.y = newY;
+        System.out.println("Moved to new position: (" + x + ", " + y + ")");
+    }
+
+    // Abstract methods that must be implemented by subclasses
+    abstract void draw();  // How to draw the object
+    abstract void resize(double scaleFactor);  // How to resize the object
+}
+
+// Subclass representing a Circle
+class Circle extends GraphicObject {
+    double radius;
+
+    // Constructor
+    Circle(int x, int y, String lineColor, String fillColor, double radius) {
+        super(x, y, lineColor, fillColor);
+        this.radius = radius;
+    }
+
+    // Implement abstract methods
+    @Override
+    void draw() {
+        System.out.println("Drawing a Circle at (" + x + ", " + y + 
+            ") with radius " + radius + ", line color: " + lineColor + 
+            ", fill color: " + fillColor);
+    }
+
+    @Override
+    void resize(double scaleFactor) {
+        radius *= scaleFactor;
+        System.out.println("Resized Circle to new radius: " + radius);
+    }
+}
+
+// Subclass representing a Rectangle
+class Rectangle extends GraphicObject {
+    double width, height;
+
+    // Constructor
+    Rectangle(int x, int y, String lineColor, String fillColor, double width, double height) {
+        super(x, y, lineColor, fillColor);
+        this.width = width;
+        this.height = height;
+    }
+
+    // Implement abstract methods
+    @Override
+    void draw() {
+        System.out.println("Drawing a Rectangle at (" + x + ", " + y + 
+            ") with width " + width + ", height " + height + 
+            ", line color: " + lineColor + ", fill color: " + fillColor);
+    }
+
+    @Override
+    void resize(double scaleFactor) {
+        width *= scaleFactor;
+        height *= scaleFactor;
+        System.out.println("Resized Rectangle to new dimensions: " + 
+            "width = " + width + ", height = " + height);
+    }
+}
+
+// Subclass representing a Line
+class Line extends GraphicObject {
+    int endX, endY;
+
+    // Constructor
+    Line(int x, int y, String lineColor, int endX, int endY) {
+        super(x, y, lineColor, "none"); // No fill color for a line
+        this.endX = endX;
+        this.endY = endY;
+    }
+
+    // Implement abstract methods
+    @Override
+    void draw() {
+        System.out.println("Drawing a Line from (" + x + ", " + y + 
+            ") to (" + endX + ", " + endY + "), line color: " + lineColor);
+    }
+
+    @Override
+    void resize(double scaleFactor) {
+        endX = (int)(x + (endX - x) * scaleFactor);
+        endY = (int)(y + (endY - y) * scaleFactor);
+        System.out.println("Resized Line to new endpoint: (" + endX + ", " + endY + ")");
+    }
+}
+
+// Main class
+public class DrawingApplication {
+    public static void main(String[] args) {
+        // Create graphic objects
+        GraphicObject circle = new Circle(10, 20, "red", "blue", 5.0);
+        GraphicObject rectangle = new Rectangle(5, 10, "black", "yellow", 4.0, 6.0);
+        GraphicObject line = new Line(0, 0, "green", 10, 10);
+
+        // Draw all objects
+        circle.draw();
+        rectangle.draw();
+        line.draw();
+
+        System.out.println();
+
+        // Move and resize objects
+        circle.moveTo(15, 25);
+        circle.resize(2.0);
+
+        rectangle.moveTo(10, 15);
+        rectangle.resize(1.5);
+
+        line.moveTo(5, 5);
+        line.resize(1.2);
+
+        System.out.println();
+
+        // Redraw after resizing and moving
+        circle.draw();
+        rectangle.draw();
+        line.draw();
+    }
+}
