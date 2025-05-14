@@ -30,7 +30,13 @@ public class OccurenceChar {
 
 		}
 		
-	         System.out.println(map);
+		for(Character key : map.keySet()) {
+     	   
+     	   System.out.println(key + ":" +map.get(key));
+     	   
+        }
+		
+	         
 
 	}
 

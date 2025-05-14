@@ -18,6 +18,9 @@ public class ReverseEachWord {
 			}
 
 			output = output + revWord + " ";
+			
+			
+			
 
 		}
 
